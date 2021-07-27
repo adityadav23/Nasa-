@@ -134,22 +134,18 @@ public final class QueryUtils {
             }
             ArrayList<Apod> apods = new ArrayList<>();
 
-
             //parsing the jsonString to fetch desired data
-            JSONArray jsonArray = new JSONArray(jsonString);
 
+            JSONObject jsonObject = new JSONObject(jsonString);
+          //  for(int i=0 ;i<jsonArray.length();i++){
 
+                 //   JSONObject jsonObject = jsonArray.getJSONObject(i);
+                    String title = jsonObject.getString("title");
+                    String url = jsonObject.getString("url");
+                    String explanation = jsonObject.getString("explanation");
+                    String date = jsonObject.getString("date");
 
-                 for(int i=0 ;i<jsonArray.length();i++) {
-
-                     JSONObject jsonObject = jsonArray.getJSONObject(i);
-                     String title = jsonObject.getString("title");
-                     String url = jsonObject.getString("url");
-                     String explanation = jsonObject.getString("explanation");
-                     String date = jsonObject.getString("date");
-
-                     apods.add(new Apod(date, title, explanation, url));
-                 }
+                    apods.add( new Apod(date , title , explanation , url));
 
 
 

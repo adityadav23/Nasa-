@@ -1,6 +1,8 @@
 package com.example.nasa;
 
+import android.app.LoaderManager;
 import android.content.Intent;
+import android.content.Loader;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,13 +15,15 @@ import android.widget.ListView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class ApodActivity1 extends AppCompatActivity {
+public class ApodActivity1 extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Apod>> {
 
 
     private ApodAdapter mAdapter;
     private final static String nasaUrl ="https://api.nasa.gov/planetary/apod?api_key=Q2LSnoceQDU98gXRFEqQ30nLOxmafVK3LGuzsefK";
-
+        //Loader id
+      private static final int EARTHQUAKE_lOADER_ID =1;
 
 
     @Override
@@ -28,35 +32,34 @@ public class ApodActivity1 extends AppCompatActivity {
         setContentView(R.layout.activity_apod1);
 
 
-        StringBuilder query = new StringBuilder();
-        query.append(nasaUrl);
+//        StringBuilder query = new StringBuilder();
+//        query.append(nasaUrl);
 
 
         ListView listview = findViewById(R.id.list);
         mAdapter = new ApodAdapter(this,new ArrayList<>());
         listview.setAdapter(mAdapter);
-
-        EditText startDateEt = findViewById(R.id.startDate);
-        EditText endDateEt = findViewById(R.id.endDate);
-
-        //initiating AsyncTask using URL
-        NasaAsyncTask task = new NasaAsyncTask();
-
-        Button button = findViewById(R.id.submitButton);
-
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String nasaQuery="";
-                String startDate = "&start_date="+startDateEt.getText().toString() ;
-                String endDate = "&end_date="+endDateEt.getText().toString();
-                query.append(startDate);
-                query.append(endDate);
-
-                nasaQuery=query.toString();
-                task.execute(nasaQuery);
-            }
-        });
+//
+//        EditText startDateEt = findViewById(R.id.startDate);
+//        EditText endDateEt = findViewById(R.id.endDate);
+//
+//
+//
+//        Button button = findViewById(R.id.submitButton);
+//
+//        button.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//                String startDate = "&start_date="+startDateEt.getText().toString() ;
+//                String endDate = "&end_date="+endDateEt.getText().toString();
+//                query.append(startDate);
+//                query.append(endDate);
+//
+//                query.toString();
+//
+//            }
+//        });
 
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -78,25 +81,31 @@ public class ApodActivity1 extends AppCompatActivity {
 
             }
         });
+
+        LoaderManager loaderManager = getLoaderManager();
+        loaderManager.initLoader(EARTHQUAKE_lOADER_ID,null,this);
     }
-    private class  NasaAsyncTask extends AsyncTask<String , Void ,ArrayList<Apod>> {
 
-        @Override
-        protected ArrayList<Apod> doInBackground(String... strings) {
-            if(strings.length<1 || strings[0]==null){
-                return null;
-            }
-            ArrayList<Apod> apods = QueryUtils.fetchData(strings[0]);
-            return apods;
-        }
+    @Override
+    public Loader<List<Apod>> onCreateLoader(int id, Bundle bundle) {
+        return new ApodLoader(this, nasaUrl);
+    }
 
-        @Override
-        protected void onPostExecute(ArrayList<Apod> apods) {
-            mAdapter.clear();
-            if(apods !=null && !apods.isEmpty()){
-                mAdapter.addAll(apods);
-            }
+    @Override
+    public void onLoadFinished(Loader<List<Apod>> loader, List<Apod> apodList) {
+
+        mAdapter.clear();
+        if(apodList != null && !apodList.isEmpty()){
+            mAdapter.addAll(apodList);
         }
     }
+
+    @Override
+    public void onLoaderReset(Loader<List<Apod>> loader) {
+
+        mAdapter.clear();
+    }
+
+
 }
 

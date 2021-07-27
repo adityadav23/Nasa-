@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Nasa</string>
+    <string name="submit_button">Submit</string>
+    <string name="startDate">Start Date</string>
+    <string name="endDate">End Date</string>
+
+</resources>

@@ -3,5 +3,6 @@
     <string name="submit_button">Submit</string>
     <string name="startDate">Start Date</string>
     <string name="endDate">End Date</string>
+    <string name="noDataFound">No entry found!!</string>
 
 </resources>

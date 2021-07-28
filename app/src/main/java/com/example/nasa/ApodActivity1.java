@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,10 +21,14 @@ import java.util.List;
 public class ApodActivity1 extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Apod>> {
 
 
+    // declaring empty state textview
+    private TextView mEmptyState;
     private ApodAdapter mAdapter;
+    //emptyState textview for listview
+
     private final static String nasaUrl ="https://api.nasa.gov/planetary/apod?api_key=Q2LSnoceQDU98gXRFEqQ30nLOxmafVK3LGuzsefK";
-        //Loader id
-      private static final int EARTHQUAKE_lOADER_ID =1;
+    //Loader id
+    private static final int EARTHQUAKE_lOADER_ID =1;
 
 
     @Override
@@ -32,34 +37,13 @@ public class ApodActivity1 extends AppCompatActivity implements LoaderManager.Lo
         setContentView(R.layout.activity_apod1);
 
 
-//        StringBuilder query = new StringBuilder();
-//        query.append(nasaUrl);
-
-
         ListView listview = findViewById(R.id.list);
+        // Setting emptyView to listview
+        mEmptyState = findViewById(R.id.emptyState);
+        listview.setEmptyView(mEmptyState);
         mAdapter = new ApodAdapter(this,new ArrayList<>());
         listview.setAdapter(mAdapter);
-//
-//        EditText startDateEt = findViewById(R.id.startDate);
-//        EditText endDateEt = findViewById(R.id.endDate);
-//
-//
-//
-//        Button button = findViewById(R.id.submitButton);
-//
-//        button.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                String startDate = "&start_date="+startDateEt.getText().toString() ;
-//                String endDate = "&end_date="+endDateEt.getText().toString();
-//                query.append(startDate);
-//                query.append(endDate);
-//
-//                query.toString();
-//
-//            }
-//        });
+
 
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,7 +78,13 @@ public class ApodActivity1 extends AppCompatActivity implements LoaderManager.Lo
     @Override
     public void onLoadFinished(Loader<List<Apod>> loader, List<Apod> apodList) {
 
+        //Loading indicator set to invisible
+        View loadingIndicator = findViewById(R.id.loadingIndicator);
+        loadingIndicator.setVisibility(View.GONE);
+        //setting emptyState textview, so if no data is found it will be loaded
+        mEmptyState.setText(R.string.noDataFound);
         mAdapter.clear();
+        // adding apodArraylist data to adapter
         if(apodList != null && !apodList.isEmpty()){
             mAdapter.addAll(apodList);
         }

@@ -31,6 +31,13 @@ public final class QueryUtils {
                 Extracting by using all helper methods
          */
      public static  ArrayList<Apod> fetchData(String stringUrl){
+         //Adding sleep method to test our loading indicator
+         try {
+             Thread.sleep(2000);
+         } catch (InterruptedException e) {
+             e.printStackTrace();
+         }
+
          URL url = createUrl(stringUrl);
          String jsonResponse ;
          ArrayList<Apod> apods = new ArrayList<>();

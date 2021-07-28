@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools">
     <ImageView
         android:id="@+id/apodImageView"
         android:layout_width="match_parent"
@@ -14,27 +15,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         >
+
         <TextView
+            android:id="@+id/titleTextView"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-
-            android:id="@+id/titleTextView"/>
+            android:fontFamily="sans-serif-black"
+            android:textAlignment="center"
+            android:textColor="#DC2A77"
+            android:textSize="24sp"
+            tools:text="The Milky way" />
 
         <TextView
             android:id="@+id/dateTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="textEnd" />
+            android:textAlignment="textEnd"
+            android:textColorHint="#38B9CC"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:text="28-06-2000" />
 
         <TextView
             android:id="@+id/explanationTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textStyle="bold" />
-
-
-
-
 
 
 

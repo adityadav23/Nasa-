@@ -1,8 +1,12 @@
 package com.example.nasa;
 
 import android.app.LoaderManager;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -37,6 +41,7 @@ public class ApodActivity1 extends AppCompatActivity implements LoaderManager.Lo
         setContentView(R.layout.activity_apod1);
 
 
+
         ListView listview = findViewById(R.id.list);
         // Setting emptyView to listview
         mEmptyState = findViewById(R.id.emptyState);
@@ -65,6 +70,19 @@ public class ApodActivity1 extends AppCompatActivity implements LoaderManager.Lo
 
             }
         });
+
+        //Getting reference to connectivity manager to check state of network
+        ConnectivityManager connMgr = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Get details on currently active default data network
+        Network networkInfo = connMgr.getActiveNetwork();
+        //not connected to network
+        if (networkInfo==null){
+
+            mEmptyState.setText(R.string.noInternet);
+        }
+//        else if(networkInfo!=null ){
+//            mEmptyState.setText(R.string.noDataFound);
+//        }
 
         LoaderManager loaderManager = getLoaderManager();
         loaderManager.initLoader(EARTHQUAKE_lOADER_ID,null,this);
